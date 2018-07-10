@@ -3,7 +3,6 @@ package will.jvm.test;
 /**
  * Vm Args:-Xss128K
  * StackOverflowError
- * Created by duyisong on 09/07/2018.
  */
 public class OverflowStackTest {
 
