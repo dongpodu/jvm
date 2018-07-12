@@ -1,0 +1,11 @@
+/.idea
+**/*.iml
+**/out
+**/*.log
+*.settings
+*.classpath
+*.project
+*.factorypath*
+**/.DS_Store
+**/*.log*.zip
+*.versionsBackup

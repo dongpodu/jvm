@@ -11,7 +11,7 @@ public class HeapOOMTest {
     public static void main(String[] args) {
         List<HeapOOMTest> list = new ArrayList();
         while (true){
-            list.add(new HeapOOMTest());
+//            list.add(new HeapOOMTest());
         }
     }
 
