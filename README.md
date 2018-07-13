@@ -6,13 +6,25 @@ jstack : 用于生成java虚拟机当前时刻的线程快照
 jinfo : JVM Configuration info 这个命令作用是实时查看和调整虚拟机运行参数
 
 #调优参数
-–XX:NewRatio 等于老年代/新生代，如-XX:NewRatio:2
+–XX:NewRatio 等于老年代/新生代，如-XX:NewRatio=2
 –XX:NewSize  指定新生代初始内存大小，如-XX:NewSize=10M
 –XX:MaxNewSize  指定新生代最大内存大小,如-XX:MaxNewSize=10M
 -Xmn  等同于设置了相同的-XX:NewSize和-XX:MaxNewSize，如-Xmn20M
 –XX:SurvivorRatio  等于eden/s0或eden/s1，如-XX:SurvivorRatio=1
 -Xms 最小堆内存，如-Xms10m 
--Xmx10m  最大堆内存，如-Xmx10m
+-Xmx 最大堆内存，如-Xmx10m
+
+#垃圾回收器
+-XX:+UseSerialGC Serial+Serial Old(java 8之前);Copy+MarkSweepCompact(java8以及java8之后)
+-XX:+UseParNewGC ParNew+Serial Old(java 8之前);Serial+MarkSweepCompact(java8以及java8之后)
+-XX:+UseConcMarkSweepGC ParNew+ConcurrentMarkSweep(Serial Old作为CMS的后备，在发生Concurrent Mode Failure时使用)
+-XX:+UseParallelGC PS Scavenge+PS MarkSweep
+-XX:+UseParallelOldGC PS Scavenge+PS Old(java 8之前);PS Scavenge+PS MarkSweep(java8以及java8之后)
+-XX:+UseG1GC G1
+
+#其他
+-XX:+PrintCommandLineFlags -version  显示出JVM初始化完毕后所有跟最初的默认值不同的参数及它们的值。
+-XX:+PrintFlagsInitial 显示所有可设置参数及默认值，可结合-XX:+PrintFlagsFinal对比设置前、设置后的差异，方便知道对那些参数做了调整。
 
 #什么场景下会发生内存泄漏（即不再会被使用的对象的内存不能被回收）
 现在有一个Product类代表一种产品，这个类被设计为不可扩展的，而此时我们想要为每个产品增加一个编号。一种解决方案是使用HashMap<Product, Integer>。
