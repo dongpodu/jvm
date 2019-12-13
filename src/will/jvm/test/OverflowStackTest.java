@@ -6,10 +6,10 @@ package will.jvm.test;
  */
 public class OverflowStackTest {
 
-    private int stackLenght=1;
+    private int stackLength =1;
 
     public void test(){
-        stackLenght++;
+        stackLength++;
         test();
     }
 
@@ -18,7 +18,7 @@ public class OverflowStackTest {
         try{
             test.test();
         }catch (Throwable e){
-            System.out.println("stack length:"+test.stackLenght);
+            System.out.println("stack length:"+test.stackLength);
             e.printStackTrace();
         }
     }
