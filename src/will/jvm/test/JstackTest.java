@@ -74,9 +74,9 @@ public class JstackTest {
     public static void main(String[] args) {
 //        loop();
         JstackTest test = new JstackTest();
-//        pool.execute(test::testDeadLock);
-//        pool.execute(test::testDeadLock1);
+        pool.execute(test::testDeadLock);
+        pool.execute(test::testDeadLock1);
 
-        test.thread();
+//        test.thread();
     }
 }
