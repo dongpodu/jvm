@@ -1,4 +1,4 @@
-package will.jvm.model;
+package will.jvm.test;
 
 public class User {
     private String name;

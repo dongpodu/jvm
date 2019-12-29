@@ -2,7 +2,6 @@ package will.jvm.test;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
-import will.jvm.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +12,40 @@ import java.util.List;
 public class HeapTest {
 
     public static void main(String[] args) throws InterruptedException {
-//        testEden();
+        testEden();
+        testOld();
 //        testBigObject();
 //        testMaxTenuringThreshold();
 //        testPermVariable();
 //        testStaticVariable();
-        testMetaSpace();
+//        testMetaSpace();
     }
 
 
+    /**
+     * -Xms10m -Xmx10m -XX:NewRatio=1 -XX:SurvivorRatio=8 -XX:+UseSerialGC -XX:+PrintGCDetails
+     * @throws InterruptedException
+     */
     private static void testEden() throws InterruptedException {
         int i = 0;
         for (; ; i++) {
             new User("" + i);
-            if (i / 1000 == 0) {
+            if (i % 1000 == 0) {
+                Thread.sleep(5000);
+            }
+        }
+    }
+
+    /**
+     * -Xms10m -Xmx10m -XX:NewRatio=1 -XX:SurvivorRatio=8 -XX:+UseSerialGC -XX:+PrintGCDetails
+     * @throws InterruptedException
+     */
+    private static void testOld() throws InterruptedException {
+        List<User> list = new ArrayList<>();
+        int i = 0;
+        for (; ; i++) {
+            list.add(new User("" + i));
+            if (i % 1000 == 0) {
                 Thread.sleep(5000);
             }
         }
@@ -71,14 +90,17 @@ public class HeapTest {
         for (; ; i++) {
             s = s + s;
             System.out.println(s.intern());
-            if (i / 10000 == 0) {
-                Thread.sleep(5000);
-            }
+            Thread.sleep(3000);
         }
     }
 
     static String va = "abc";
 
+    /**
+     * java7之后，静态变量移到堆内存中
+     *
+     * @throws InterruptedException
+     */
     public static void testStaticVariable() throws InterruptedException {
         int i = 0;
         for (; ; i++) {
@@ -89,7 +111,7 @@ public class HeapTest {
     }
 
     /**
-     * -XX:MetaspaceSize=8m -XX:MaxMetaspaceSize=128m -XX:+PrintGCDetails
+     * -XX:MetaspaceSize=8m -XX:MaxMetaspaceSize=8m -XX:+PrintGCDetails
      */
     public static void testMetaSpace() {
         int i = 0;
@@ -101,6 +123,7 @@ public class HeapTest {
                 enhancer.setUseCache(false);
                 enhancer.setCallback((MethodInterceptor) (obj, method, args, proxy) -> proxy.invokeSuper(obj, args));
                 enhancer.create();
+                Thread.sleep(30000);
             }
         } catch (Exception e) {
             System.out.println("第" + i + "次时发生异常");

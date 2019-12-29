@@ -1,4 +1,4 @@
-package will.jvm.chapter3;
+package will.jvm.book.chapter3;
 
 public class FinalizeEscapeGc {
 	public static FinalizeEscapeGc SAVE_HOOK=null;

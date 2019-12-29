@@ -1,4 +1,4 @@
-package will.jvm.chapter4;
+package will.jvm.book.chapter4;
 
 public class MinorGcTest {
 	private static final int _1MB=1024*1024;
